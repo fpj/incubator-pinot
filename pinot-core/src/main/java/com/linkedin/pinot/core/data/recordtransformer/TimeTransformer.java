@@ -55,10 +55,9 @@ public class TimeTransformer implements RecordTransformer {
     if (_timeConverter == null) {
       return record;
     }
-    // Skip transformation if outgoing value already exist
-    // NOTE: outgoing value might already exist for OFFLINE data
-    if (record.getValue(_outgoingTimeColumn) == null) {
-      record.putField(_outgoingTimeColumn, _timeConverter.convert(record.getValue(_incomingTimeColumn)));
+    Object incomingValue = record.getValue(_incomingTimeColumn);
+    if (incomingValue != null) {
+      record.putField(_outgoingTimeColumn, _timeConverter.convert(incomingValue));
     }
     return record;
   }
